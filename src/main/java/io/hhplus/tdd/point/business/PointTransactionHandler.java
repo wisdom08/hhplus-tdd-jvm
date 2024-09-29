@@ -19,11 +19,12 @@ public class PointTransactionHandler {
 
     public UserPoint handleTransaction(long userId, long point, TransactionType transactionType) {
         UserPoint currentPoint = userPointRepository.selectById(userId);
-        TransactionTypeStrategy strategy = transactionType.getStrategyByType();
-        long newPoint = strategy.act(currentPoint, point);
-
-        pointHistoryHandler.addPointHistory(userId, newPoint, transactionType);
-
-        return userPointRepository.insertOrUpdate(userId, newPoint);
+        TransactionTypeStrategy strategy = transactionType.getStrategy();
+        if (strategy.isTransactionTypeSupported(transactionType)) {
+            long newPoint = strategy.act(currentPoint, point);
+            pointHistoryHandler.addPointHistory(userId, newPoint, transactionType);
+            return userPointRepository.insertOrUpdate(userId, newPoint);
+        }
+        throw new IllegalArgumentException("지원하지 않는 트랜잭션 타입입니다.");
     }
 }
