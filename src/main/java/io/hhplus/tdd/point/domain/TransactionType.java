@@ -1,9 +1,9 @@
 package io.hhplus.tdd.point.domain;
 
 
-import io.hhplus.tdd.point.business.strategy.ChargeStrategy;
+import io.hhplus.tdd.point.business.strategy.ChargeOperator;
 import io.hhplus.tdd.point.business.strategy.TransactionTypeStrategy;
-import io.hhplus.tdd.point.business.strategy.UseStrategy;
+import io.hhplus.tdd.point.business.strategy.UseOperator;
 import lombok.Getter;
 
 /**
@@ -13,8 +13,8 @@ import lombok.Getter;
  */
 @Getter
 public enum TransactionType {
-    CHARGE(new ChargeStrategy()),
-    USE(new UseStrategy());
+    CHARGE(new ChargeOperator()),
+    USE(new UseOperator());
 
     private final TransactionTypeStrategy strategy;
 
